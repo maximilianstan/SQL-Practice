@@ -137,15 +137,10 @@ INSERT INTO angajati VALUES
 (NULL, "Petrescu", "Mihaela", "0789989665", "1872543119890", "Necasatorit", "mihaelapet3@gmail.com", "HR", "4480", "2022-12-12", "10");
 
 SELECT * FROM angajati;
-
 SELECT * FROM angajati ORDER BY stare_civila;
-
 SELECT * FROM angajati ORDER BY salariu;
-
 SELECT * FROM angajati WHERE salariu < "7000";
-
 SELECT * FROM angajati WHERE data_angajarii > "2014-03-02";
-
 SELECT nume FROM angajati WHERE salariu >= "5000";
 
 INSERT INTO furnizori VALUES
@@ -252,7 +247,57 @@ INSERT INTO produse VALUES
 (NULL, "Corsair", "Gaming Keyboard S", "690", "8", "3", "Da"),
 (NULL, "Corsair", "Gaming Keyboard S", "700", "8", "4", "Da"),
 (NULL, "Corsair", "Gaming Keyboard S", "700", "8", "5", "Da"),
-(NULL, "Corsair", "Gaming Keyboard S", "710", "8", "9", "Da");
-SELECT * FROM produse;
+(NULL, "Corsair", "Gaming Keyboard S", "710", "8", "9", "Da"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", "800", "9", "1", "Da"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", "785", "9", "3", "Nu"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", "810", "9", "4", "Da"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", "810", "9", "5", "Da"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", "820", "9", "9", "Da"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", NULL, "9", "7", "Nu"),
+(NULL, "Kingston", "32 DDR5 RAM ModuleX2", NULL, "9", "2", "Nu"),
+(NULL, "Logitech", "Master 3S Mouse", "450", "11", "1", "Da"),
+(NULL, "Logitech", "Master 3S Mouse", "420", "11", "3", "Da"),
+(NULL, "Logitech", "Master 3S Mouse", "460", "11", "4", "Da"),
+(NULL, "Logitech", "Master 3S Mouse", "450", "11", "5", "Da"),
+(NULL, "Logitech", "Master 3S Mouse", "440", "11", "9", "Da"),
+(NULL, "Logitech", "Master 3S Mouse", "450", "11", "10", "Da"),
+(NULL, "Toshiba", "Laptop SL100 Office", "2700", "12", "1", "Da"),
+(NULL, "Toshiba", "Laptop SL100 Office", NULL, "12", "2", "Nu"),
+(NULL, "Toshiba", "Laptop SL100 Office", "2600", "12", "3", "Da"),
+(NULL, "Toshiba", "Laptop SL100 Office", "2800", "12", "4", "Da"),
+(NULL, "Toshiba", "Laptop SL100 Office", "2750", "12", "5", "Da"),
+(NULL, "Toshiba", "Laptop SL100 Office", NULL, "12", "6", "Nu"),
+(NULL, "Toshiba", "Laptop SL100 Office", NULL, "12", "7", "Nu"),
+(NULL, "Toshiba", "Laptop SL100 Office", "2500", "12", "9", "Da");
 
+SELECT * FROM produse;
+SELECT COUNT(id) FROM produse;
+SELECT COUNT(nume) FROM angajati;
+SELECT COUNT(locatie) FROM magazine;
+SELECT COUNT(tara) FROM furnizori WHERE tara = "USA";
+SELECT COUNT(prenume) FROM angajati WHERE prenume = "Alexandru";
+SELECT COUNT(id) FROM angajati WHERE salariu <= "8000";
+SELECT COUNT(id) FROM angajati WHERE stare_civila = "Necasatorit";
+
+INSERT INTO clienti VALUES
+(NULL, "Cretu", "Cristian", "0711884432", "Bulevard Titulescu nr.22 Bloc 10 ap.33, Bucuresti", "cretu.cristian@gmail.com"),
+(NULL, "Stan", "Maximilian", "0727188588", "Strada Veronica Micle nr.22 Bloc M5 ap.56, Bucuresti", "maximilian.s@outlook.com"),
+(NULL, "Dinca", "Andrei", "0744531887", "Bulevard Baba Novac nr.40 Bloc 4B ap.75,Bucuresti", "dentistcoxat@gmail.com"),
+(NULL, "Vacarescu", "Maria", "0756654321", "Piata Amzei nr.40 Casa 2, Bucuresti", "vacarescum.2@yahoo.com"),
+(NULL,"Stirbei", "Anita", "0777566112", "Strada Gabroveni nr.4 bloc 7A ap.20, Constanta", "anita4line@gmail.com"),
+(NULL, "Chelaru", "Anton", "0745382123", "Strada Aleea Lalelelor nr.10 ap.21,Targu-Jiu", "anton2beton@yahoo.com"),
+(NULL, "Tanti", "Auguri", "0777888555", "Strada Proba de Test 88, ap.11, Bucuresti", "tantiauguri222@gmail.com"),
+(NULL, "Corcodus", "Mirabela", "0711994433", "Strada Armand nr.3, bloc M1 ap.30, Ilfov", "mirabela221@yahoo.com"),
+(NULL, "Nica", "Diana", "0714998812", "Strada Balotesti nr.14 bloc 4 ap. 12, Rovinari", "diana2never@outlook.com"),
+(NULL, "Vidrovan", "Teodora", "0755333111", "Strada Poiana Mare nr.32 casa 1, Brasov", "vidrovanteo@yahoo.com"),
+(NULL, "Stan", "Alexandra", "0766443228", "Strada Corinelor nr.10 casa 5, Bucuresti", "alexa441@gmail.com"),
+(NULL, "Serghei", "Ana-Maria", "0788443210", "Strada Corcodusului nr.9 casa 20, Bucuresti", "serghei1ana@gmail.com"),
+(NULL, "Vladislav", "Ioana", "0718443210", "Strada Alunisului nr.1 casa 11, Bucuresti", "ioanavladi@gmail.com"),
+(NULL, "Costea", "Bianca", "0718443220", "Strada Secerisului nr.15 casa 2, Ploiesti", "bianca88@gmail.com"),
+(NULL, "Sandulescu", "Elvira", "0712223210", "Bulevardul Eroilor nr.10 bloc M2 ap.13, Bucuresti", "sandulescuelvi@gmail.com"),
+(NULL, "Bortea", "Ion", "0718483210", "Strada Muncii nr.55 bloc Z4 ap.5, Bucuresti", "borteaion4@gmail.com"),
+(NULL, "Vanghelie", "Sandu", "0718443420", "Aleea Petrolului nr.40 casa 7, Giurgiu", "sanduvanghi@yahoo.com"),
+(NULL, "Enache", "Amalia", "0218443210", "Strada Pavelelor nr.200 casa 2, Satu Mare", "amaliaenache8@gmail.com"),
+(NULL, "Radu", "Cornelia", "0318443242", "Strada Micsunelelor nr.2 bloc 2V, Bucuresti", "corneliaopincar@yahoo.com"),
+(NULL, "Radauteanu", "Vasile", "0715555210", "Strada Panaite Istrati nr.4 casa 18 Sinaia", "radauteanu.v@gmail.com");
 
