@@ -1,5 +1,6 @@
 CREATE DATABASE IF NOT EXISTS organizatia_principala;
 USE organizatia_principala;
+
 CREATE TABLE IF NOT EXISTS magazine (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 denumire VARCHAR(50),
@@ -8,7 +9,9 @@ faliment ENUM ("Da", "Nu") NOT NULL,
 locatie VARCHAR(100),
 cifra_afaceri CHAR(10) NOT NULL
 );
+
 DESCRIBE magazine;
+
 CREATE TABLE IF NOT EXISTS angajati (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 nume VARCHAR(100) NOT NULL,
@@ -23,13 +26,16 @@ data_angajarii DATE,
 id_magazin TINYINT,
 FOREIGN KEY (id_magazin) REFERENCES magazine(id)
 );
+
 DESCRIBE angajati;
+
 CREATE TABLE IF NOT EXISTS furnizori (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 denumire VARCHAR(50) NOT NULL,
 locatie VARCHAR(100),
 telefon CHAR(10)
 );
+
 DESCRIBE furnizori;
 
 CREATE TABLE IF NOT EXISTS produse (
@@ -54,6 +60,7 @@ telefon CHAR(10),
 locatie VARCHAR(100),
 e_mail VARCHAR(100)
 );
+
 DESCRIBE clienti;
 
 CREATE TABLE IF NOT EXISTS comenzi (
@@ -140,3 +147,112 @@ SELECT * FROM angajati WHERE salariu < "7000";
 SELECT * FROM angajati WHERE data_angajarii > "2014-03-02";
 
 SELECT nume FROM angajati WHERE salariu >= "5000";
+
+INSERT INTO furnizori VALUES
+(NULL, "Apple", "Palo Alto, California", "0000456771"),
+(NULL, "Samsung", "Seul, South Korea", "0000336772"),
+(NULL, "Lexmark", "Lexington, KY", "0000456722"),
+(NULL, "Canon", "Ota, Tokyo", "0000456622"),
+(NULL, "Lenovo", "Hong Kong 22", "0000886722"),
+(NULL, "Hewlett-Packard", "Palo Alto, California", "0002256771"),
+(NULL, "Microsoft", "Redmond, Washington", "0005556773"),
+(NULL, "Corsair", "Milpitas, California", "0004446773"),
+(NULL, "Kingston", "Fountain Valley, California", "0006646744"),
+(NULL, "Western Digital", "San Jose, California", "0008846714"),
+(NULL, "Logitech", "Lausanne 45", "0000451623"),
+(NULL, "Toshiba", "Tokyo 22", "0001456642");
+
+SELECT * FROM furnizori;
+
+ALTER TABLE furnizori ADD tara VARCHAR(50);
+
+SET sql_safe_updates = 0;
+
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Apple";
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Lexmark";
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Microsoft";
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Hewlett-Packard";
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Corsair";
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Kingston";
+UPDATE furnizori SET tara = "USA" WHERE denumire = "Western Digital";
+UPDATE furnizori SET tara = "Elvetia" WHERE denumire = "Logitech";
+UPDATE furnizori SET tara = "Japonia" WHERE denumire = "Toshiba";
+UPDATE furnizori SET tara = "Japonia" WHERE denumire = "Canon";
+UPDATE furnizori SET tara = "Koreea de Sud" WHERE denumire = "Samsung";
+UPDATE furnizori SET tara = "China" WHERE denumire = "Lenovo";
+
+SET sql_safe_updates = 1;
+
+INSERT INTO produse VALUES
+(NULL, "Apple", "Macbook Pro 13 inch", "9000", "1", "1", "Da"),
+(NULL, "Apple", "Macbook Pro 15 inch", "11000", "1", "3", "Da"),
+(NULL, "Apple", "Macbook Pro 15 inch", "11500", "1", "1", "Da"),
+(NULL, "Apple", "iMac Pro", "7000", "1", "3", "Da"),
+(NULL, "Apple", "iMac Pro", "7500", "1", "1", "Da"),
+(NULL, "Apple", "iMac Pro", "6900", "1", "4", "Da"),
+(NULL, "Apple", "iMac Pro", "7900", "1", "8", "Da"),
+(NULL, "Apple", "iPhone 14", "4000", "1", "1", "Da"),
+(NULL, "Apple", "iPhone 14", "4100", "1", "3", "Da"),
+(NULL, "Apple", "iPhone 14", "3900", "1", "4", "Da"),
+(NULL, "Apple", "iPhone 14", "4600", "1", "8", "Da"),
+(NULL, "Apple", "iPhone 14", "3900", "1", "10", "Da"),
+(NULL, "Canon", "DX10", "2500", "4", "1", "Da"),
+(NULL, "Canon", "DX10", "2400", "4", "4", "Da"),
+(NULL, "Canon", "DX10", "2300", "4", "9", "Da"),
+(NULL, "Canon", "DX10", "2550", "4", "3", "Da"),
+(NULL, "Canon", "DX9", "1900", "4", "1", "Nu"),
+(NULL, "Canon", "DX9", "2100", "4", "3", "Da"),
+(NULL, "Canon", "DX9", "2500", "4", "9", "Nu"),
+(NULL, "Canon", "4P00", "3500", "4", "1", "Da"),
+(NULL, "Canon", "4P00", "3400", "4", "3", "Da"),
+(NULL, "Canon", "4P00", "4000", "4", "5", "Da"),
+(NULL, "Canon", "4P00", "2900", "4", "4", "Da"),
+(NULL, "Canon", "Xtreme", "9500", "4", "1", "Da"),
+(NULL, "Canon", "Xtreme", "9200", "4", "4", "Nu"),
+(NULL, "Canon", "Xtreme", "9400", "4", "5", "Da"),
+(NULL, "Western Digital", "P2 SSD", "250", "10", "1", "Da"),
+(NULL, "Western Digital", "P2 SSD", "195", "10", "3", "Nu"),
+(NULL, "Western Digital", "P2 SSD", "200", "10", "4", "Da"),
+(NULL, "Western Digital", "P2 SSD", "230", "10", "5", "Da"),
+(NULL, "Western Digital", "P2 SSD", "260", "10", "9", "Da"),
+(NULL, "Samsung", "S20 Galaxy", "3000", "2", "1", "Da"),
+(NULL, "Samsung", "S20 Galaxy", "3100", "2", "3", "Da"),
+(NULL, "Samsung", "S20 Galaxy", "2900", "2", "4", "Da"),
+(NULL, "Samsung", "S20 Galaxy", "3000", "2", "5", "Nu"),
+(NULL, "Samsung", "S20 Galaxy", "3100", "2", "9", "Da"),
+(NULL, "Samsung", "S20 Galaxy", "2950", "2", "10", "Da"),
+(NULL, "Lexmark", "PrinterPro", "700", "3", "1", "Da"),
+(NULL, "Lexmark", "PrinterPro", "710", "3", "3", "Da"),
+(NULL, "Lexmark", "PrinterPro", "690", "3", "4", "Da"),
+(NULL, "Lexmark", "PrinterPro", "700", "3", "5", "Nu"),
+(NULL, "Lexmark", "PrinterPro", "720", "3", "9", "Da"),
+(NULL, "Lexmark", "PrinterPro", "750", "3", "8", "Da"),
+(NULL, "Lenovo", "Laptop D5", "4600", "5", "1", "Nu"),
+(NULL, "Lenovo", "Laptop D5", "4300", "5", "3", "Da"),
+(NULL, "Lenovo", "Laptop D5", "4600", "5", "5", "Da"),
+(NULL, "Lenovo", "Laptop D5", "4100", "5", "4", "Da"),
+(NULL, "Lenovo", "Laptop D5", "4600", "5", "9", "Da"),
+(NULL, "Hewlett-Packard", "Laptop 14X Office", "3800", "6", "1", "Da"),
+(NULL, "Hewlett-Packard", "Laptop 14X Office", "4000", "6", "2", "Nu"),
+(NULL, "Hewlett-Packard", "Laptop 14X Office", "3700", "6", "3", "Da"),
+(NULL, "Hewlett-Packard", "Laptop 14X Office", "3600", "6", "4", "Da"),
+(NULL, "Hewlett-Packard", "Laptop 14X Office", "3900", "6", "9", "Da"),
+(NULL, "Hewlett-Packard", "Laptop 14X Office", "3800", "6", "5", "Nu"),
+(NULL, "Microsoft", "Surface Pro", "5700", "7", "1", "Da"),
+(NULL, "Microsoft", "Surface Pro", "5300", "7", "4", "Nu"),
+(NULL, "Microsoft", "Surface Pro", "5600", "7", "3", "Da"),
+(NULL, "Microsoft", "Surface Pro", "5700", "7", "5", "Da"),
+(NULL, "Microsoft", "Surface Pro", "5800", "7", "9", "Da"),
+(NULL, "Microsoft", "Windows 11 Pro", "150", "7", "1", "Da"),
+(NULL, "Microsoft", "Windows 11 Pro", "150", "7", "3", "Da"),
+(NULL, "Microsoft", "Windows 11 Pro", "150", "7", "4", "Da"),
+(NULL, "Microsoft", "Windows 11 Pro", "150", "7", "5", "Da"),
+(NULL, "Microsoft", "Windows 11 Pro", "150", "7", "9", "Da"),
+(NULL, "Corsair", "Gaming Keyboard S", "700", "8", "1", "Da"),
+(NULL, "Corsair", "Gaming Keyboard S", "690", "8", "3", "Da"),
+(NULL, "Corsair", "Gaming Keyboard S", "700", "8", "4", "Da"),
+(NULL, "Corsair", "Gaming Keyboard S", "700", "8", "5", "Da"),
+(NULL, "Corsair", "Gaming Keyboard S", "710", "8", "9", "Da");
+SELECT * FROM produse;
+
+
