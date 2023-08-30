@@ -65,17 +65,11 @@ DESCRIBE clienti;
 
 CREATE TABLE IF NOT EXISTS comenzi (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-total_plata_lei MEDIUMINT,
-plata_cash BOOL,
-id_magazin TINYINT,
-id_produs MEDIUMINT,
-id_client TINYINT,
-FOREIGN KEY (id_magazin) REFERENCES magazine(id),
-FOREIGN KEY (id_produs) REFERENCES produse(id),
-FOREIGN KEY (id_client) REFERENCES clienti(id)
-);
+client_nume VARCHAR(100) NOT NULL,
+??????????????
+??????????????
+??????????????
 
-DESCRIBE comenzi;
 
 INSERT INTO magazine VALUES
 (NULL, "eMag", "0742726843", "Nu", "Șoseaua Virtuții 148", "7100000000"),
@@ -300,4 +294,8 @@ INSERT INTO clienti VALUES
 (NULL, "Enache", "Amalia", "0218443210", "Strada Pavelelor nr.200 casa 2, Satu Mare", "amaliaenache8@gmail.com"),
 (NULL, "Radu", "Cornelia", "0318443242", "Strada Micsunelelor nr.2 bloc 2V, Bucuresti", "corneliaopincar@yahoo.com"),
 (NULL, "Radauteanu", "Vasile", "0715555210", "Strada Panaite Istrati nr.4 casa 18 Sinaia", "radauteanu.v@gmail.com");
+
+SELECT * FROM clienti;
+
+
 
