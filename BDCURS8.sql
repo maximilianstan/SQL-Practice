@@ -79,3 +79,105 @@ sintaxa pentru stergerea unei proceduri:
 
 */
 
+SELECT COUNT(turist) FROM rezervare;
+
+# sa se construiasca o procedura ce determina numarul de rezervari din tabela;
+
+DELIMITER //
+CREATE PROCEDURE afisareNrRezervari()
+BEGIN
+    SELECT COUNT(id_rezervare) FROM rezervare;
+END;
+//
+DELIMITER ;
+
+CALL afisareNrRezervari();
+
+# inserati o noua rezervare in tabela;
+
+INSERT INTO rezervare VALUES
+(NULL,'Draganescu',3,20170714,2);
+
+SELECT COUNT(*) FROM ofertaturistica WHERE tip = "sejur";
+SELECT COUNT(*) FROM ofertaturistica WHERE tip = "citybreak";
+SELECT COUNT(*) FROM ofertaturistica WHERE tip = "circuit";
+
+# afisareNrOferteTuristice("sejur");
+
+DELIMITER //
+CREATE PROCEDURE afisareNrOferteTuristice( IN tipOfertaTuristica VARCHAR(100))
+BEGIN 
+    SELECT COUNT(*) FROM ofertaturistica WHERE tip = tipOfertaTuristica;
+END;
+//
+DELIMITER ;
+
+CALL afisareNrOferteTuristice("sejur");
+CALL afisareNrOferteTuristice("citybreak");
+CALL afisareNrOferteTuristice("circuit");
+
+# sa se calculeze valoarea unei rezervari 
+# valoare rezervare = pret * nr_turisti;
+# cat valoreaza prima rezervare din tabel?
+
+SELECT ofertaturistica.pret * rezervare.nr_turisti FROM ofertaturistica INNER JOIN rezervare ON ofertaturistica.id_ofertaturistica = rezervare.id_ofertaturistica;
+
+DELIMITER //
+CREATE PROCEDURE valoareRezervare(IN id_rezervare TINYINT, OUT valoare DOUBLE)
+BEGIN
+   SELECT o.pret * r.nr_turisti INTO valoare FROM
+   ofertaturistica AS o INNER JOIN rezervare AS r
+   ON o.id_ofertaturistica = r.id_ofertaturistica
+   WHERE r.id_rezervare = id_rezervare;
+
+END;
+//
+DELIMITER ;
+DROP PROCEDURE valoareRezervare;
+
+# parametrii de iesire se transmit intotdeauna ca variabile globale
+CALL valoareRezervare(1, @valoare);
+SELECT @valoare;
+
+# FOLOSIREA UNUI PARAMETRU DE TIP INTRARE IESIRE
+
+DELIMITER //
+CREATE PROCEDURE modificaNr(INOUT nr INT)
+BEGIN
+   SET nr = nr * 2;
+END;
+//
+DELIMITER ;
+
+SELECT @numar := 10;
+CALL modificaNr(@numar);
+SELECT @numar;
+
+# TEMA - scoateti niste concluzii la proceduri - UTILE (idei principale)
+
+# FUNCTII
+
+SELECT destinatie, COUNT(id_rezervare) FROM ofertaturistica INNER JOIN rezervare WHERE ofertaturistica.id_ofertaturistica = rezervare.id_ofertaturistica GROUP BY destinatie;
+
+DELIMITER //
+CREATE FUNCTION nrRezervariPerDestinatie (numeDestinatie VARCHAR(100)) RETURNS INT
+BEGIN
+
+   DECLARE rezultat INT DEFAULT 0;
+
+   SELECT COUNT(id_rezervare) INTO rezultat FROM rezervare r INNER JOIN ofertaturistica o 
+   WHERE o.id_ofertaturistica = r.id_ofertaturistica
+   AND o.destinatie = numeDestinatie;
+   
+   RETURN rezultat;
+   
+END;
+//
+DELIMITER ;
+
+SELECT nrRezervariPerDestinatie("Londra");
+SELECT nrRezervariPerDestinatie("Grecia");
+SELECT nrRezervariPerDestinatie("Italia");
+
+
+
