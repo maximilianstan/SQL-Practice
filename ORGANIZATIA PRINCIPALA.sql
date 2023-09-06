@@ -64,11 +64,14 @@ e_mail VARCHAR(100)
 DESCRIBE clienti;
 
 CREATE TABLE IF NOT EXISTS comenzi (
-id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
-client_nume VARCHAR(100) NOT NULL,
+id MEDIUMINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+data_comanda DATE,
+tip_plata ENUM("Cash", "Card"),
 id_client TINYINT,
-id_produs TINYINT,
+FOREIGN KEY (id_client) REFERENCES clienti(id)
+);
 
+DESCRIBE comenzi;
 
 INSERT INTO magazine VALUES
 (NULL, "eMag", "0742726843", "Nu", "Șoseaua Virtuții 148", "7100000000"),
@@ -296,5 +299,23 @@ INSERT INTO clienti VALUES
 
 SELECT * FROM clienti;
 
-
+INSERT INTO comenzi VALUES
+(NULL, "2023-01-12", "Card", "2"),
+(NULL, "2022-05-05", "Card", "5"),
+(NULL, "2022-07-11", "Card", "6"),
+(NULL, "2023-01-10", "Card", "2"),
+(NULL, "2023-03-03", "Cash", "7"),
+(NULL, "2023-02-10", "Card", "4"),
+(NULL, "2023-02-09", "Card", "8"),
+(NULL, "2022-12-10", "Cash", "1"),
+(NULL, "2022-11-11", "Card", "10"),
+(NULL, "2022-09-08", "Card", "12"),
+(NULL, "2022-10-08", "Card", "12"),
+(NULL, "2023-02-01", "Cash", "9"),
+(NULL, "2023-05-10", "Card", "13"),
+(NULL, "2023-05-10", "Cash", "14"),
+(NULL, "2022-01-10", "Card", "19"),
+(NULL, "2021-09-09", "Card", "1"),
+(NULL, "2022-04-11", "Card", "8"),
+(NULL, "2022-07-12", "Cash", "15");
 
