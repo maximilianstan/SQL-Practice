@@ -73,6 +73,17 @@ FOREIGN KEY (id_client) REFERENCES clienti(id)
 
 DESCRIBE comenzi;
 
+CREATE TABLE IF NOT EXISTS facturi (
+id_produs MEDIUMINT,
+id_comanda MEDIUMINT,
+PRIMARY KEY (id_produs, id_comanda),
+FOREIGN KEY (id_produs) REFERENCES produse(id),
+FOREIGN KEY (id_comanda) REFERENCES comenzi(id),
+cantitate MEDIUMINT
+);
+
+DESCRIBE facturi;
+
 INSERT INTO magazine VALUES
 (NULL, "eMag", "0742726843", "Nu", "Șoseaua Virtuții 148", "7100000000"),
 (NULL, "Flamingo Computers", "0212108500", "Da", "Soseaua Bucuresti Ploiesti 44", "0"),
@@ -318,4 +329,11 @@ INSERT INTO comenzi VALUES
 (NULL, "2021-09-09", "Card", "1"),
 (NULL, "2022-04-11", "Card", "8"),
 (NULL, "2022-07-12", "Cash", "15");
+
+INSERT INTO comenzi VALUES
+(NULL, "2023-07-09", "Card", "14"),
+(NULL, "2023-04-05", "Card", "16"),
+(NULL, "2022-10-11", "Cash", "10");
+
+SELECT * FROM comenzi;
 
