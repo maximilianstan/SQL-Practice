@@ -1,6 +1,8 @@
 CREATE DATABASE IF NOT EXISTS organizatia_principala;
 USE organizatia_principala;
 
+# Crearea tabelelor ( 7 tabele)
+
 CREATE TABLE IF NOT EXISTS magazine (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
 denumire VARCHAR(50),
@@ -84,6 +86,8 @@ cantitate MEDIUMINT
 
 DESCRIBE facturi;
 
+# Inserturi in tabelele create 
+
 INSERT INTO magazine VALUES
 (NULL, "eMag", "0742726843", "Nu", "Șoseaua Virtuții 148", "7100000000"),
 (NULL, "Flamingo Computers", "0212108500", "Da", "Soseaua Bucuresti Ploiesti 44", "0"),
@@ -144,11 +148,6 @@ INSERT INTO angajati VALUES
 (NULL, "Petrescu", "Mihaela", "0789989665", "1872543119890", "Necasatorit", "mihaelapet3@gmail.com", "HR", "4480", "2022-12-12", "10");
 
 SELECT * FROM angajati;
-SELECT * FROM angajati ORDER BY stare_civila;
-SELECT * FROM angajati ORDER BY salariu;
-SELECT * FROM angajati WHERE salariu < "7000";
-SELECT * FROM angajati WHERE data_angajarii > "2014-03-02";
-SELECT nume FROM angajati WHERE salariu >= "5000";
 
 INSERT INTO furnizori VALUES
 (NULL, "Apple", "Palo Alto, California", "0000456771"),
@@ -166,7 +165,15 @@ INSERT INTO furnizori VALUES
 
 SELECT * FROM furnizori;
 
+# Modificarea structurii tabelelor prin "ALTER TABLE"
+
 ALTER TABLE furnizori ADD tara VARCHAR(50);
+
+ALTER TABLE furnizori DROP telefon;
+
+ALTER TABLE furnizori ADD telefon CHAR(10);
+
+# UPDATE - Actualizarea datelor (12 exemple)
 
 SET sql_safe_updates = 0;
 
@@ -278,13 +285,6 @@ INSERT INTO produse VALUES
 (NULL, "Toshiba", "Laptop SL100 Office", "2500", "12", "9", "Da");
 
 SELECT * FROM produse;
-SELECT COUNT(id) FROM produse;
-SELECT COUNT(nume) FROM angajati;
-SELECT COUNT(locatie) FROM magazine;
-SELECT COUNT(tara) FROM furnizori WHERE tara = "USA";
-SELECT COUNT(prenume) FROM angajati WHERE prenume = "Alexandru";
-SELECT COUNT(id) FROM angajati WHERE salariu <= "8000";
-SELECT COUNT(id) FROM angajati WHERE stare_civila = "Necasatorit";
 
 INSERT INTO clienti VALUES
 (NULL, "Cretu", "Cristian", "0711884432", "Bulevard Titulescu nr.22 Bloc 10 ap.33, Bucuresti", "cretu.cristian@gmail.com"),
@@ -336,4 +336,62 @@ INSERT INTO comenzi VALUES
 (NULL, "2022-10-11", "Cash", "10");
 
 SELECT * FROM comenzi;
+
+INSERT INTO facturi VALUES
+("1", "9", "1"),
+("2", "2", "2"),
+("18", "4", "1"),
+("34", "3", "1"),
+("23", "5", "1"),
+("78", "21", "3"),
+("50", "1", "5"),
+("46", "6", "2"),
+("60", "7", "8"),
+("49", "8", "6"),
+("69", "9", "10"),
+("70", "10", "2"),
+("42", "11", "1"),
+("71", "7", "8"),
+("59", "15", "2"),
+("30", "7", "8"),
+("36", "14", "1"),
+("22", "16", "1"),
+("37", "18", "1"),
+("8", "19", "2"),
+("14", "12", "3"),
+("29", "13", "2"),
+("26", "17", "1"),
+("67", "18", "10"),
+("74", "20", "25"),
+("54", "1", "1"),
+("55", "3", "1"),
+("78", "4", "3");
+
+SELECT * FROM facturi;
+
+# Interogari variate cu SELECT 
+
+SELECT * FROM angajati ORDER BY stare_civila;
+
+SELECT * FROM angajati ORDER BY salariu;
+
+SELECT * FROM angajati WHERE salariu < "7000";
+
+SELECT * FROM angajati WHERE data_angajarii > "2014-03-02";
+
+SELECT nume FROM angajati WHERE salariu >= "5000";
+
+SELECT COUNT(id) FROM produse;
+
+SELECT COUNT(nume) FROM angajati;
+
+SELECT COUNT(locatie) FROM magazine;
+
+SELECT COUNT(tara) FROM furnizori WHERE tara = "USA";
+
+SELECT COUNT(prenume) FROM angajati WHERE prenume = "Alexandru";
+
+SELECT COUNT(id) FROM angajati WHERE salariu <= "8000";
+
+SELECT COUNT(id) FROM angajati WHERE stare_civila = "Necasatorit";
 
