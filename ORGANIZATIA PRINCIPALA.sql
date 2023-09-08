@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS organizatia_principala;
 USE organizatia_principala;
 
-# Crearea tabelelor ( 7 tabele)
+# CREAREA TABELELOR ( 7 tabele)
 
 CREATE TABLE IF NOT EXISTS magazine (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -86,7 +86,7 @@ cantitate MEDIUMINT
 
 DESCRIBE facturi;
 
-# Inserturi in tabelele create 
+# INSERT-URI IN TABELELE CREATE
 
 INSERT INTO magazine VALUES
 (NULL, "eMag", "0742726843", "Nu", "Șoseaua Virtuții 148", "7100000000"),
@@ -165,7 +165,7 @@ INSERT INTO furnizori VALUES
 
 SELECT * FROM furnizori;
 
-# Modificarea structurii tabelelor prin "ALTER TABLE"
+# MODIFICAREA STRUCTURII TABELELOR PRIN "ALTER TABLE"
 
 ALTER TABLE furnizori ADD tara VARCHAR(50);
 
@@ -173,7 +173,11 @@ ALTER TABLE furnizori DROP telefon;
 
 ALTER TABLE furnizori ADD telefon CHAR(10);
 
-# UPDATE - Actualizarea datelor (12 exemple)
+ALTER TABLE clienti ADD sex ENUM("Masculin", "Feminin");
+
+ALTER TABLE clienti DROP sex;
+
+# UPDATE - ACTUALIZAREA DATELOR (12 exemple)
 
 SET sql_safe_updates = 0;
 
@@ -369,7 +373,19 @@ INSERT INTO facturi VALUES
 
 SELECT * FROM facturi;
 
-# Interogari variate cu SELECT 
+# DELETE - minim 3 exemple
+
+SET sql_safe_updates = 0;
+
+DELETE FROM angajati WHERE nume = "Micsulean";
+
+DELETE FROM angajati WHERE nume = "Stoianica";
+
+DELETE FROM angajati WHERE penume = "Iordache";
+
+SET sql_safe_updates = 1;
+
+# INTEROGARI VARIATE CU SELECT 
 
 SELECT * FROM angajati ORDER BY stare_civila;
 
@@ -394,4 +410,62 @@ SELECT COUNT(prenume) FROM angajati WHERE prenume = "Alexandru";
 SELECT COUNT(id) FROM angajati WHERE salariu <= "8000";
 
 SELECT COUNT(id) FROM angajati WHERE stare_civila = "Necasatorit";
+
+SELECT * FROM angajati ORDER BY salariu DESC LIMIT 1, 1;
+
+# SUBINTEROGARI 
+
+SELECT nume, denumire FROM (SELECT nume, id_magazin FROM angajati WHERE DATE(data_angajarii) > 2018-01-01) 
+AS angajat2018 JOIN magazine ON angajat2018.id_magazin = magazine.id;
+
+SELECT prenume, denumire FROM (SELECT prenume, id_magazin FROM angajati WHERE(stare_civila) = "Necasatorit")
+AS angajat_necasatorit JOIN magazine ON angajat_necasatorit.id_magazin = magazine.id;
+
+SELECT prenume, denumire, stare_civila FROM (SELECT prenume, id_magazin, stare_civila FROM angajati WHERE(stare_civila) = "Necasatorit")
+AS angajat_necasatorit JOIN magazine ON angajat_necasatorit.id_magazin = magazine.id;
+
+SELECT nume, prenume, denumire, salariu FROM (SELECT nume, prenume, id_magazin, salariu FROM angajati WHERE salariu > 4000)
+AS angajat_salariat JOIN magazine ON angajat_salariat.id_magazin = magazine.id;
+
+SELECT brand, pret_lei FROM (SELECT brand, id_furnizor, pret_lei FROM produse WHERE pret_lei > 1000)
+AS produse_scumpe JOIN furnizori ON produse_scumpe.id_furnizor = furnizori.id;
+
+# JOINS (INNER JOIN /CROSS/OUTER/RIGHT)
+
+SELECT nume, prenume, data_comanda FROM clienti INNER JOIN comenzi ON clienti.id = comenzi.id_client;
+
+SELECT nume, prenume, tip_plata FROM clienti JOIN comenzi ON clienti.id = comenzi.id_client WHERE tip_plata = "cash";
+
+SELECT nume, tip_plata FROM clienti RIGHT JOIN comenzi ON clienti.id = comenzi.id_client WHERE tip_plata = "card";
+
+SELECT furnizori.denumire, tara, produse.denumire, stoc_furnizor FROM furnizori LEFT OUTER JOIN produse
+ON furnizori.id = produse.id_furnizor WHERE brand = "Apple";
+
+SELECT furnizori.denumire, produse.denumire, stoc_furnizor FROM furnizori CROSS JOIN produse
+ON furnizori.id = produse.id_furnizor WHERE brand = "Lexmark";
+
+# FUNCTII (GROUP/ HAVING)
+
+SELECT COUNT(id), id_magazin FROM angajati GROUP BY id_magazin HAVING COUNT(id) >= 1;
+
+SELECT CONCAT(nume, " ", prenume) angajati FROM angajati GROUP BY id_magazin HAVING COUNT(id) = 5;
+
+SELECT CONCAT(brand, " ", denumire) produs FROM produse GROUP BY pret_lei HAVING pret_lei >1000;
+
+# PREDEFINITE MATEMATICE (>,<, =, DATE)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
