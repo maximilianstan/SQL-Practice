@@ -181,3 +181,76 @@ SELECT nrRezervariPerDestinatie("Italia");
 
 
 
+DELIMITER //
+CREATE FUNCTION decizieOferta (idOferta INT, bugetMax INT ) RETURNS VARCHAR(100)
+BEGIN
+	DECLARE pretOferta INT; 
+    DECLARE mesaj VARCHAR(100);
+    SELECT pret INTO pretOferta FROM ofertaturistica WHERE id_ofertaturistica = idOferta;
+  
+	IF pretOferta <= bugetMax THEN
+        SET mesaj := "Oferta acceptata!";
+	ELSE
+		SET mesaj := "Oferta refuzata!";
+	END IF;
+    
+    RETURN mesaj;
+END;
+//
+DELIMITER ;
+
+SELECT decizieOferta(1, 1000);
+SELECT decizieOferta(1, 1500);
+
+# O functie care determina ziua saptamanii a inceputului unei rezervari al carui ID este parametrul de intrare
+
+
+DELIMITER //
+CREATE FUNCTION ziuaSaptamanii_inceput(id_rezervare INT) RETURNS VARCHAR(100)
+BEGIN
+	DECLARE ziuaSaptamanii INT;
+    DECLARE zi VARCHAR(100);
+    
+    SELECT dayofweek(data_rezervare) INTO ziuaSaptamanii FROM rezervare WHERE id_rezervare = rezervare.id_rezervare;
+
+CASE ziuaSaptamanii
+    WHEN  1 THEN SET zi := "Duminica";
+    WHEN  2 THEN SET zi := "Luni";
+    WHEN  3 THEN SET zi := "Marti";
+    WHEN  4 THEN SET zi := "Miercuri";
+    WHEN  5 THEN SET zi := "Joi";
+    WHEN  6 THEN SET zi := "Vineri";
+    WHEN  7 THEN SET zi := "Sambata";
+ END CASE;
+ 
+ RETURN zi;
+ 
+END;
+ //
+ DELIMITER ;
+ 
+ SELECT ziuaSaptamanii_inceput(4);
+ 
+ 
+ DELIMITER //
+ CREATE FUNCTION factorial(N INT) returns int
+ BEGIN
+     DECLARE rezultat INT DEFAULT 1;
+     
+     factorial:LOOP
+        SET rezultat = N * rezultat;
+        SET N:= N - 1;
+        IF N = 0 THEN
+            LEAVE factorial;
+		END IF;
+	END LOOP;
+     
+	RETURN rezultat;
+ END;
+ //
+ DELIMITER ;
+ 
+SELECT factorial(4);
+SELECT factorial(5);
+
+

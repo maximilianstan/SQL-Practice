@@ -454,18 +454,44 @@ SELECT CONCAT(brand, " ", denumire) produs FROM produse GROUP BY pret_lei HAVING
 
 # PREDEFINITE MATEMATICE (>,<, =, DATE)
 
+SELECT CONCAT(prenume, " ", nume) angajat FROM angajati WHERE data_angajarii > 2023-01-01;
 
+SELECT CONCAT(brand, " ", denumire) produs FROM produse WHERE pret_lei >= 2000;
 
+SELECT * FROM angajati WHERE salariu > 2000;
 
+SELECT * FROM angajati ORDER BY stare_civila;
 
+SELECT * FROM furnizori ORDER BY locatie DESC limit 5;
 
+# VIEW-URI (TABELE VIRTUALE - MIN 2 EXEMPLE)
 
+CREATE OR REPLACE VIEW detalii_comenzi_facturi AS SELECT * FROM facturi JOIN comenzi ON id_comanda = comenzi.id;
 
+SELECT * FROM detalii_comenzi_facturi;
 
+CREATE OR REPLACE VIEW angajat_firma AS SELECT nume, prenume, denumire, salariu, stare_civila FROM angajati JOIN magazine ON angajati.id_magazin = magazine.id;
 
+SELECT * FROM angajat_firma;
 
+CREATE OR REPLACE VIEW produse_furnizori AS SELECT brand, produse.denumire FROM produse JOIN furnizori ON furnizori.id = produse.id_furnizor WHERE pret_lei >2500;
 
+SELECT * FROM produse_furnizori;
 
+# FUNCTII
+
+DELIMITER //
+CREATE OR REPLACE FUNCTION <nume_funcție> (<param1><tip_date>, <param2><tip_date>, ..., <paramN><tip_date>) RETURNS <tip_returnat> -- antetul funcției
+BEGIN
+   DECLARE <nume_var1> <tip_date>; --se pot declara oricâte variabile locale, dacă este necesar
+   DECLARE <nume_var2> <tip_date>;
+   ...
+   DECLARE <nume_varN> <tip_date>;
+   <bloc de cod funcție> -- logica din funcție, folosind query-uri, structuri de control
+   RETURNS <nume_var>; -- ultima instrucțiune este întotdeauna RETURN
+END;
+//
+DELIMITER ;
 
 
 
