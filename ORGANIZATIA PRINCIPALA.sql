@@ -413,7 +413,7 @@ SELECT COUNT(id) FROM angajati WHERE stare_civila = "Necasatorit";
 
 SELECT * FROM angajati ORDER BY salariu DESC LIMIT 1, 1;
 
-# SUBINTEROGARI 
+# SUBINTEROGARI - SUBSELECT
 
 SELECT nume, denumire FROM (SELECT nume, id_magazin FROM angajati WHERE DATE(data_angajarii) > 2018-01-01) 
 AS angajat2018 JOIN magazine ON angajat2018.id_magazin = magazine.id;
@@ -481,17 +481,46 @@ SELECT * FROM produse_furnizori;
 # FUNCTII
 
 DELIMITER //
-CREATE OR REPLACE FUNCTION <nume_funcție> (<param1><tip_date>, <param2><tip_date>, ..., <paramN><tip_date>) RETURNS <tip_returnat> -- antetul funcției
+CREATE FUNCTION detalii_produse(id MEDIUMINT) RETURNS VARCHAR(500)
 BEGIN
-   DECLARE <nume_var1> <tip_date>; --se pot declara oricâte variabile locale, dacă este necesar
-   DECLARE <nume_var2> <tip_date>;
-   ...
-   DECLARE <nume_varN> <tip_date>;
-   <bloc de cod funcție> -- logica din funcție, folosind query-uri, structuri de control
-   RETURNS <nume_var>; -- ultima instrucțiune este întotdeauna RETURN
+    DECLARE denumire_completa VARCHAR(500);
+    DECLARE brand VARCHAR(100);
+    DECLARE denumire VARCHAR(200);
+    SELECT produse.brand, produse.denumire INTO brand, denumire
+    FROM produse WHERE produse.id = id;
+    SET denumire_completa = CONCAT(brand, " ", denumire);
+    
+    RETURN denumire_completa;
 END;
 //
 DELIMITER ;
+
+SELECT detalii_produse(20);
+SELECT detalii_produse(55);
+SELECT detalii_produse(id) FROM produse WHERE id IN (1, 7, 15);
+
+DELIMITER //
+CREATE FUNCTION magazine_angajati(id TINYINT) RETURNS VARCHAR (300)
+BEGIN
+    DECLARE nume_complet VARCHAR(200);
+    DECLARE nume VARCHAR(100);
+    DECLARE prenume VARCHAR(100);
+    SELECT angajati.nume, angajati.prenume INTO nume, prenume
+    FROM angajati WHERE angajati.id = id;
+    SET nume_complet = CONCAT(nume, " ", prenume);
+
+    RETURN nume_complet;
+END;
+//
+DELIMITER ;
+
+SELECT magazine_angajati(id) FROM angajati WHERE id IN (16, 2, 35);
+SELECT magazine_angajati(10);
+SELECT magazine_angajati(17);
+
+
+
+
 
 
 
