@@ -500,7 +500,7 @@ SELECT detalii_produse(55);
 SELECT detalii_produse(id) FROM produse WHERE id IN (1, 7, 15);
 
 DELIMITER //
-CREATE FUNCTION magazine_angajati(id TINYINT) RETURNS VARCHAR (300)
+CREATE FUNCTION magazine_angajati(id TINYINT) RETURNS VARCHAR(300)
 BEGIN
     DECLARE nume_complet VARCHAR(200);
     DECLARE nume VARCHAR(100);
@@ -518,9 +518,23 @@ SELECT magazine_angajati(id) FROM angajati WHERE id IN (16, 2, 35);
 SELECT magazine_angajati(10);
 SELECT magazine_angajati(17);
 
+DELIMITER //
+CREATE FUNCTION furnizori_detalii(id TINYINT) RETURNS VARCHAR(300)
+BEGIN
+    DECLARE brand_si_locatie VARCHAR(400);
+    DECLARE branding VARCHAR(50);
+    DECLARE locatie_primara VARCHAR(100);
+    DECLARE tara_originara VARCHAR(50);
+    SELECT furnizori.denumire, furnizori.locatie, furnizori.tara INTO branding, locatie_primara, tara_originara
+    FROM furnizori WHERE furnizori.id = id;
+    SET brand_si_locatie = CONCAT(branding,'/',locatie_primara, '/', tara_originara);
+    
+    RETURN brand_si_locatie;
+END;
+//
+DELIMITER ;
 
-
-
-
-
+SELECT furnizori_detalii(id) FROM furnizori WHERE id IN (2, 4);
+SELECT furnizori_detalii(5);
+SELECT furnizori_detalii(3);
 
