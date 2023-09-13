@@ -478,7 +478,7 @@ CREATE OR REPLACE VIEW produse_furnizori AS SELECT brand, produse.denumire FROM 
 
 SELECT * FROM produse_furnizori;
 
-# FUNCTII - 3 EXEMPLE
+# FUNCTII - 4 EXEMPLE
 
 DELIMITER //
 CREATE FUNCTION detalii_produse(id MEDIUMINT) RETURNS VARCHAR(500)
@@ -538,6 +538,38 @@ SELECT furnizori_detalii(id) FROM furnizori WHERE id IN (2, 4);
 SELECT furnizori_detalii(5);
 SELECT furnizori_detalii(3);
 
+DELIMITER //
+CREATE FUNCTION salariu_final(id TINYINT) RETURNS MEDIUMINT
+BEGIN
+    DECLARE marire MEDIUMINT DEFAULT 0;
+    DECLARE data_de_angajare DATE;
+    DECLARE salariul_initial MEDIUMINT;
+    SELECT angajati.data_angajarii, angajati.salariu INTO data_de_angajare, salariul_initial
+    FROM angajati WHERE angajati.id = id;
+   
+    IF data_de_angajare <= "01.01.2018" THEN
+		SET marire = 500;
+	END IF;
+    IF salariul_initial >= 3000 THEN
+		SET marire = 1000;
+    END IF;
+    SET marire = salariul_initial + marire;
+    
+    RETURN marire;
+END;
+//
+DELIMITER ;
+
+SELECT salariu_final(14);
+
+
+
+
 # PROCEDURI - 3 EXEMPLE
 
-
+DELIMITER //
+CREATE OR REPLACE PROCEDURE
+BEGIN
+END;
+//
+DELIMITER ;
