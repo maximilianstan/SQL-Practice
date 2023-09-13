@@ -538,3 +538,23 @@ SELECT furnizori_detalii(id) FROM furnizori WHERE id IN (2, 4);
 SELECT furnizori_detalii(5);
 SELECT furnizori_detalii(3);
 
+DELIMITER //
+CREATE FUNCTION produse_furnizori(id TINYINT) RETURNS VARCHAR(200)
+BEGIN
+    DECLARE produsele_furnizorilor VARCHAR(100);
+    DECLARE nume_produse VARCHAR(50);
+	DECLARE nume_furnizori VARCHAR(50);
+    SELECT produse.denumire, furnizori.denumire INTO nume_produse, nume_furnizori FROM produse JOIN furnizori
+    ON produse.id_furnizor = furnizori.id
+    WHERE furnizori.id = id;
+    SET produsele_furnizorilor = CONCAT(nume_produse, '/', nume_furnizori);
+
+    RETURN produsele_furnizorilor;
+
+END;
+//
+DELIMITER ;
+
+SELECT produse_furnizori(4);
+
+DROP FUNCTION produse_furnizori;
