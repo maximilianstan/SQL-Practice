@@ -549,9 +549,13 @@ BEGIN
    
     IF data_de_angajare <= "01.01.2018" THEN
 		SET marire = 500;
+	ELSE 
+        SET marire = 0;
 	END IF;
-    IF salariul_initial >= 3000 THEN
+    IF salariul_initial <= 3000 THEN
 		SET marire = 1000;
+	ELSE
+        SET marire = 0;
     END IF;
     SET marire = salariul_initial + marire;
     
@@ -560,9 +564,9 @@ END;
 //
 DELIMITER ;
 
-SELECT salariu_final(14);
-
-
+SELECT salariu_final(42);
+SELECT salariu_final(20);
+SELECT salariu_final(id) FROM angajati WHERE id IN (3, 18, 25);
 
 
 # PROCEDURI - 3 EXEMPLE
