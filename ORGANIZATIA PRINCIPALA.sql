@@ -572,8 +572,15 @@ SELECT salariu_final(id) FROM angajati WHERE id IN (3, 18, 25);
 # PROCEDURI - 3 EXEMPLE
 
 DELIMITER //
-CREATE OR REPLACE PROCEDURE
+CREATE PROCEDURE detaliile_magazinelor(IN id TINYINT)
 BEGIN
+    SELECT CONCAT(denumire, '/', locatie, '/', cifra_afaceri)
+    FROM magazine
+    WHERE magazine.id = id;
 END;
 //
 DELIMITER ;
+
+CALL detaliile_magazinelor(1);
+CALL detaliile_magazinelor(8);
+CALL detaliile_magazinelor(4);
