@@ -584,3 +584,12 @@ DELIMITER ;
 CALL detaliile_magazinelor(1);
 CALL detaliile_magazinelor(8);
 CALL detaliile_magazinelor(4);
+
+DELIMITER //
+CREATE PROCEDURE
+BEGIN
+
+
+END;
+//
+DELIMITER ;
