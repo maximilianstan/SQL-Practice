@@ -586,10 +586,36 @@ CALL detaliile_magazinelor(8);
 CALL detaliile_magazinelor(4);
 
 DELIMITER //
-CREATE PROCEDURE
+CREATE PROCEDURE discount_produse (IN id_produs MEDIUMINT)
 BEGIN
-
-
-END;
+    DECLARE brand_produs VARCHAR(100);
+    DECLARE denumire_produs VARCHAR(200);
+    DECLARE pret_produs MEDIUMINT;
+    DECLARE denumire_magazin VARCHAR(50);
+    
+    SELECT produse.brand, produse.denumire, produse.pret_lei, magazine.denumire 
+    INTO brand_produs, denumire_produs, pret_produs, denumire_magazin
+    FROM magazine JOIN produse ON produse.id_magazin = magazine.id
+    WHERE produse.id = id_produs;
+    
+    IF brand_produs = "Samsung" THEN
+        SET pret_produs = pret_produs - (pret_produs * 0.2);
+    END IF;
+    
+    IF brand_produs = " Lexmark" THEN
+        SET pret_produs = pret_produs - (pret_produs * 0.3);
+	END IF;
+    
+    IF denumire_magazin = "Altex" THEN
+        SET pret_produs = pret_produs - (pret_produs * 0.05);
+	END IF;
+    
+    UPDATE produse SET pret_lei = pret_produs WHERE produse.id = id_produs;
+    
+END;    
 //
 DELIMITER ;
+
+CALL discount_produse(1);
+CALL discount_produse (19);
+CALL discount_produse (33);
