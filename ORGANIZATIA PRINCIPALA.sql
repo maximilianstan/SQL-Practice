@@ -619,3 +619,48 @@ DELIMITER ;
 CALL discount_produse(1);
 CALL discount_produse (19);
 CALL discount_produse (33);
+
+# CURSORI
+
+CREATE TABLE IF NOT EXISTS furnizori_usa (
+id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+denumire VARCHAR(50),
+locatie VARCHAR(100),
+tara VARCHAR(50),
+telefon CHAR(10)
+);
+
+
+DELIMITER //
+CREATE PROCEDURE populare_furnizori_usa()
+BEGIN
+    DECLARE denum VARCHAR(50);
+    DECLARE loc VARCHAR(100);
+    DECLARE stat VARCHAR(50);
+    DECLARE tel CHAR(10);
+    
+    DECLARE exista_inregistrari_cursor TINYINT DEFAULT 1;
+    
+    DECLARE cursor_furnizori CURSOR FOR 
+        SELECT denumire, locatie, tara, telefon 
+        FROM furnizori
+        WHERE tara = "USA";
+        
+    DECLARE CONTINUE HANDLER FOR NOT FOUND SET exista_inregistrari_cursor = 0;
+    OPEN cursor_furnizori;
+    TRUNCATE furnizori_usa;
+    usa : LOOP
+        FETCH cursor_furnizori INTO denum, loc, stat, tel;
+        IF exista_inregistrari_cursor = 0 THEN
+           LEAVE usa;
+		ELSE 
+           INSERT INTO furnizori_usa VALUES(NULL, denum, loc, stat, tel);
+		END IF;
+    END LOOP usa;
+    CLOSE cursor_furnizori;
+END;
+//
+DELIMITER ;
+
+CALL populare_furnizori_usa();
+DROP PROCEDURE populare_furnizori_usa;
