@@ -678,4 +678,27 @@ FOREIGN KEY (id_magazin) REFERENCES magazine(id)
 );
 
 DELIMITER //
-CREATE TRIGGER 
+CREATE TRIGGER b_angajati BEFORE INSERT
+ON angajati_internship FOR EACH ROW
+BEGIN
+    SET NEW.nume = UPPER(NEW.nume);
+    SET NEW.prenume = UPPER(NEW.prenume);
+    IF NEW.salariu < 1200 THEN
+         SET NEW.salariu = 1200;
+    END IF;
+	IF NEW.data_angajarii < CURDATE() THEN
+		SET NEW.data_angajarii = CURDATE();
+	END IF;
+END;
+//
+DELIMITER ;
+
+INSERT INTO angajati_internship VALUES
+(NULL, "Dobrovolski", "Florin", "700", "2022-03-05", "5"),
+(NULL, "Stroescu", "Melania", "1500", "2023-04-07", "8"),
+(NULL, "Feraru", "Darius", "2500", "2023-05-10", "1"),
+(NULL, "Iliescu", "Bianca", "800", "2021-04-02", "3");
+
+SELECT * FROM angajati_internship;
+
+
