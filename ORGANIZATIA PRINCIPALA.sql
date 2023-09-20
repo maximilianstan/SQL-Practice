@@ -663,4 +663,19 @@ END;
 DELIMITER ;
 
 CALL populare_furnizori_usa();
-DROP PROCEDURE populare_furnizori_usa;
+SELECT * FROM furnizori_usa;
+
+# TRIGGERI 
+
+CREATE TABLE IF NOT EXISTS angajati_internship (
+id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+nume VARCHAR(100) NOT NULL,
+prenume VARCHAR(100) NOT NULL,
+salariu MEDIUMINT,
+data_angajarii DATE,
+id_magazin TINYINT,
+FOREIGN KEY (id_magazin) REFERENCES magazine(id)
+);
+
+DELIMITER //
+CREATE TRIGGER 
