@@ -1,7 +1,7 @@
 CREATE DATABASE IF NOT EXISTS organizatia_principala;
 USE organizatia_principala;
 
-# CREAREA TABELELOR ( 7 tabele)
+# CREAREA TABELELOR ( 7 tabele) - EXEMPLE
 
 CREATE TABLE IF NOT EXISTS magazine (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -86,7 +86,7 @@ cantitate MEDIUMINT
 
 DESCRIBE facturi;
 
-# INSERT-URI IN TABELELE CREATE
+# INSERT-URI IN TABELELE CREATE - EXEMPLE
 
 INSERT INTO magazine VALUES
 (NULL, "eMag", "0742726843", "Nu", "Șoseaua Virtuții 148", "7100000000"),
@@ -165,7 +165,7 @@ INSERT INTO furnizori VALUES
 
 SELECT * FROM furnizori;
 
-# MODIFICAREA STRUCTURII TABELELOR PRIN "ALTER TABLE"
+# MODIFICAREA STRUCTURII TABELELOR PRIN "ALTER TABLE" - EXEMPLE
 
 ALTER TABLE furnizori ADD tara VARCHAR(50);
 
@@ -177,7 +177,7 @@ ALTER TABLE clienti ADD sex ENUM("Masculin", "Feminin");
 
 ALTER TABLE clienti DROP sex;
 
-# UPDATE - ACTUALIZAREA DATELOR (12 exemple)
+# UPDATE - ACTUALIZAREA DATELOR - EXEMPLE
 
 SET sql_safe_updates = 0;
 
@@ -373,7 +373,7 @@ INSERT INTO facturi VALUES
 
 SELECT * FROM facturi;
 
-# DELETE - minim 3 exemple
+# DELETE - EXEMPLE
 
 SET sql_safe_updates = 0;
 
@@ -478,7 +478,7 @@ CREATE OR REPLACE VIEW produse_furnizori AS SELECT brand, produse.denumire FROM 
 
 SELECT * FROM produse_furnizori;
 
-# FUNCTII - 4 EXEMPLE
+# FUNCTII - EXEMPLE
 
 DELIMITER //
 CREATE FUNCTION detalii_produse(id MEDIUMINT) RETURNS VARCHAR(500)
@@ -569,7 +569,7 @@ SELECT salariu_final(20);
 SELECT salariu_final(id) FROM angajati WHERE id IN (3, 18, 25);
 
 
-# PROCEDURI - 3 EXEMPLE
+# PROCEDURI - EXEMPLE
 
 DELIMITER //
 CREATE PROCEDURE detaliile_magazinelor(IN id TINYINT)
@@ -620,7 +620,7 @@ CALL discount_produse(1);
 CALL discount_produse (19);
 CALL discount_produse (33);
 
-# CURSORI
+# CURSORI - EXEMPLE
 
 CREATE TABLE IF NOT EXISTS furnizori_usa (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -665,7 +665,7 @@ DELIMITER ;
 CALL populare_furnizori_usa();
 SELECT * FROM furnizori_usa;
 
-# TRIGGERI 
+# TRIGGERI - EXEMPLE
 
 CREATE TABLE IF NOT EXISTS angajati_internship (
 id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
@@ -701,4 +701,39 @@ INSERT INTO angajati_internship VALUES
 
 SELECT * FROM angajati_internship;
 
+DELIMITER //
+CREATE TRIGGER before_angajati_proba2 BEFORE INSERT
+ON angajati_internship FOR EACH ROW
+BEGIN
+	IF NEW.salariu < 3000 THEN
+		SIGNAL SQLSTATE "45000" SET MESSAGE_TEXT = "Salariul minim nu poate fi mai mic de 3000";
+	END IF;
+END;
+//
+DELIMITER ;
+
+DROP TRIGGER b_angajati;
+
+DROP TRIGGER before_angajati_proba2;
+
+CREATE TABLE IF NOT EXISTS audit_internship(
+id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+id_angajati_internship TINYINT NOT NULL,
+USER VARCHAR(50) NOT NULL,
+data_ora_modificare DATETIME NOT NULL,
+detalii MEDIUMTEXT,
+FOREIGN KEY (id_angajati_internship) REFERENCES angajati_internship(id)
+);
+
+DELIMITER //
+CREATE TRIGGER a_angajati_internship AFTER UPDATE
+ON angajati_internship FOR EACH ROW
+BEGIN
+	IF OLD.salariu != NEW.salariu THEN
+		INSERT INTO audit_internship
+        VALUES(NULL, OLD.id, user(), NOW(), CONCAT("Modificare salariu : ", OLD.salariu, "-->", NEW.salariu));
+	END IF;
+END;
+//
+DELIMITER ;
 
