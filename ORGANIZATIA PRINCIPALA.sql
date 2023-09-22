@@ -737,3 +737,32 @@ END;
 //
 DELIMITER ;
 
+CREATE TABLE IF NOT EXISTS comenzi_log (
+id TINYINT NOT NULL PRIMARY KEY AUTO_INCREMENT,
+id_comenzi MEDIUMINT,
+eveniment VARCHAR(100),
+detalii TEXT,
+FOREIGN KEY(id_comenzi) REFERENCES comenzi(id)
+);
+
+DELIMITER //
+CREATE TRIGGER au_comenzi AFTER UPDATE
+ON comenzi FOR EACH ROW
+BEGIN
+	DECLARE plata_initiala ENUM("Cash", "Card");
+    DECLARE plata_finala ENUM("Cash", "Card");
+    IF OLD.tip_plata != NEW.tip_plata THEN
+		SELECT tip_plata INTO plata_initiala FROM comenzi WHERE id = OLD.id;
+        SELECT tip_plata INTO plata_finala FROM comenzi WHERE id = NEW.id;
+		INSERT INTO comenzi_log VALUES(NULL, NEW.id, "tip plata - schimbata ", CONCAT( plata_initiala, "==>", plata_finala));
+	END IF;
+END;
+//
+DELIMITER ;
+
+UPDATE comenzi SET tip_plata = "Cash" WHERE id = 3;
+
+SELECT * FROM comenzi;
+
+SELECT * FROM comenzi_log;
+
