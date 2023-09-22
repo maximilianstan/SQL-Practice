@@ -464,7 +464,7 @@ SELECT * FROM angajati ORDER BY stare_civila;
 
 SELECT * FROM furnizori ORDER BY locatie DESC limit 5;
 
-# VIEW-URI (TABELE VIRTUALE - MIN 2 EXEMPLE)
+# VIEW-URI TABELE VIRTUALE - EXEMPLE
 
 CREATE OR REPLACE VIEW detalii_comenzi_facturi AS SELECT * FROM facturi JOIN comenzi ON id_comanda = comenzi.id;
 
@@ -619,6 +619,35 @@ DELIMITER ;
 CALL discount_produse(1);
 CALL discount_produse (19);
 CALL discount_produse (33);
+
+DELIMITER //
+CREATE PROCEDURE pret_nul_produse_indisponibile (IN id_produs MEDIUMINT)
+BEGIN
+	DECLARE brandul_produsului VARCHAR(100);
+	DECLARE denumirea_produsului VARCHAR(200);
+    DECLARE stocul_furnizorului ENUM("Da", "Nu");
+    DECLARE pretul_produsului MEDIUMINT;
+    DECLARE denumirea_furnizorului VARCHAR(50);
+    
+    SELECT produse.brand, produse.denumire, produse.stoc_furnizor, produse.pret_lei, furnizori.denumire 
+    INTO brandul_produsului, denumirea_produsului, stocul_furnizorului, pretul_produsului, denumirea_furnizorului 
+    FROM furnizori JOIN produse ON produse.id_furnizor = furnizori.id
+    WHERE produse.id = id_produs;
+    
+    IF stocul_furnizorului = "Nu" THEN 
+		SET pretul_produsului = 0;
+	END IF;
+    UPDATE produse SET pret_lei = pretul_produsului WHERE produse.id = id_produs;
+END;
+//
+DELIMITER ;
+
+CALL pret_nul_produse_indisponibile(2);
+CALL pret_nul_produse_indisponibile(17);
+CALL pret_nul_produse_indisponibile(19);
+
+DROP PROCEDURE furnizori_fara_stoc_produse;
+
 
 # CURSORI - EXEMPLE
 
