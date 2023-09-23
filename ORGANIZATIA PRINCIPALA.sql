@@ -646,8 +646,6 @@ CALL pret_nul_produse_indisponibile(2);
 CALL pret_nul_produse_indisponibile(17);
 CALL pret_nul_produse_indisponibile(19);
 
-DROP PROCEDURE furnizori_fara_stoc_produse;
-
 
 # CURSORI - EXEMPLE
 
@@ -693,6 +691,13 @@ DELIMITER ;
 
 CALL populare_furnizori_usa();
 SELECT * FROM furnizori_usa;
+
+DELIMITER //
+CREATE PROCEDURE 
+BEGIN
+END;
+//
+DELIMITER ;
 
 # TRIGGERI - EXEMPLE
 
