@@ -55,3 +55,5 @@ SELECT titlu, rating, IF(rating > 4.7, 'film bun', 'film slab') AS recomandare F
 SELECT titlu, oscar, IF(Oscar = 'Da', 'film premiat', 'film fara premii') AS premiat FROM filme;
 SELECT titlu, data_aparitie, IF(YEAR(data_aparitie) < 2000, 'Film Vechi', 'Film Recent') FROM filme;
 SELECT regizor FROM filme;
+
+DESCRIBE cursuri;
